@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفكرة يوسف - الذكية</title>
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --bg-light: #f8f9fa;
+            --bg-pattern: #ffffff;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --primary: #2c5f2d;
+            --secondary: #97bf0d;
+            --gold: #c9a961;
+            --border: #e0e0e0;
+            --shadow: rgba(44, 95, 45, 0.08);
+        }
+        
+        [data-theme="dark"] {
+            --bg-light: #1a1a1a;
+            --bg-pattern: #242424;
+            --card: #2d2d2d;
+            --text: #e8e8e8;
+            --primary: #4a9d4f;
+            --secondary: #b8d94a;
+            --gold: #d4af37;
+            --border: #3a3a3a;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-light);
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, var(--bg-pattern) 2px, var(--bg-pattern) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, var(--bg-pattern) 2px, var(--bg-pattern) 4px);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .islamic-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary) 0%, #1e4620 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            z-index: 0;
+            opacity: 0.95;
+        }
+        
+        .islamic-pattern::before {
+            content: '☪';
+            position: absolute;
+            top: 40px;
+            right: 30px;
+            font-size: 80px;
+            opacity: 0.1;
+            color: white;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .bismillah {
+            font-family: 'Amiri', serif;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
+        }
+        
+        .greeting {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .hijri-date {
+            font-size: 0.9em;
+            opacity: 0.95;
+            margin-top: 10px;
+            font-family: 'Amiri', serif;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.4em;
+            z-index: 1000;
+            box-shadow: 0 4px 12px var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .nav {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+            background: var(--card);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .nav-item {
+            text-align: center;
+            padding: 12px 8px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background: rgba(44, 95, 45, 0.05);
+            border-color: var(--primary);
+        }
+        
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .nav-icon {
+            display: block;
+            font-size: 1.5em;
+            margin-bottom: 4px;
+        }
+        
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+            border-right: 5px solid var(--primary);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .progress-info {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .prayer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .prayer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            border-right: 3px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+        
+        .prayer-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .prayer-name {
+            font-weight: 600;
+            font-size: 1.05em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .prayer-icon {
+            font-size: 1.3em;
+        }
+        
+        .check-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            border: 3px solid var(--border);
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+        }
+        
+        .check-btn:hover {
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        .check-btn.done {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .tasbih-section {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .tasbih-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .tasbih-count {
+            font-size: 4em;
+            font-weight: 900;
+            color: var(--gold);
+            margin: 20px 0;
+            font-family: 'Amiri', serif;
+            text-shadow: 2px 2px 4px var(--shadow);
+        }
+        
+        .tasbih-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: 6px solid var(--gold);
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px var(--shadow);
+            transition: all 0.3s ease;
+            font-family: 'Amiri', serif;
+            letter-spacing: 1px;
+        }
+        
+        .tasbih-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 32px var(--shadow);
+        }
+        
+        .tasbih-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .reset-btn {
+            color: #e74c3c;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        .reset-btn:hover {
+            background: rgba(231, 76, 60, 0.1);
+        }
+        
+        .ayah-card {
+            background: linear-gradient(135deg, var(--gold), #b8960f);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Amiri', serif;
+            font-size: 1.1em;
+            line-height: 2;
+            box-shadow: 0 4px 20px rgba(201, 169, 97, 0.3);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: var(--primary);
+            display: block;
+            font-family: 'Amiri', serif;
+        }
+        
+        .stat-label {
+            font-size: 0.85em;
+            color: var(--text);
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 480px) {
+            .bismillah {
+                font-size: 1.4em;
+            }
+            
+            .tasbih-count {
+                font-size: 3em;
+            }
+            
+            .tasbih-btn {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="islamic-pattern"></div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="تبديل الوضع">
+        <span id="theme-icon">🌙</span>
+    </button>
+    
+    <div class="container">
+        <header class="header">
+            <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <h1 class="greeting" id="greeting">السلام عليكم يا يوسف</h1>
+            <div class="hijri-date" id="date"></div>
+        </header>
+        
+        <nav class="nav">
+            <a href="index.html" class="nav-item active">
+                <span class="nav-icon">🕌</span>
+                <span>الصلاة</span>
+            </a>
+            <a href="info.html" class="nav-item">
+                <span class="nav-icon">📖</span>
+                <span>معلومات</span>
+            </a>
+            <a href="dua.html" class="nav-item">
+                <span class="nav-icon">🤲</span>
+                <span>أدعية</span>
+            </a>
+            <a href="tasks.html" class="nav-item">
+                <span class="nav-icon">⭐</span>
+                <span>إنجازاتي</span>
+            </a>
+        </nav>
+        
+        <div class="ayah-card" id="ayah">
+            "وَأَقِمِ الصَّلَاةَ ۖ إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ"
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span>📿</span>
+                    <span>سجل الصلوات</span>
+                </h2>
+                <span class="progress-info" id="progress-text">0%</span>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            
+            <div class="prayer-list" id="prayer-list"></div>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number" id="completed">0</span>
+                    <span class="stat-label">مكتملة</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="remaining">6</span>
+                    <span class="stat-label">متبقية</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tasbih-section">
+            <h2 class="tasbih-title">⭐ عداد التسبيح</h2>
+            <div class="tasbih-count" id="tasbih-count">0</div>
+            <button class="tasbih-btn" onclick="incrementTasbih()">
+                سَبِّح
+            </button>
+            <div class="reset-btn" onclick="resetTasbih()">🔄 تصفير</div>
+        </div>
+    </div>
+    
+    <script>
+        const prayers = [
+            { name: 'الفجر', icon: '🌅' },
+            { name: 'الظهر', icon: '☀️' },
+            { name: 'العصر', icon: '🌤️' },
+            { name: 'المغرب', icon: '🌆' },
+            { name: 'العشاء', icon: '🌙' },
+            { name: 'الوتر', icon: '⭐' }
+        ];
+        
+        const ayahs = [
+            "وَأَقِمِ الصَّلَاةَ ۖ إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ",
+            "حَافِظُوا عَلَى الصَّلَوَاتِ وَالصَّلَاةِ الْوُسْطَىٰ",
+            "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ",
+            "إِنَّ الْإِنسَانَ خُلِقَ هَلُوعًا * إِلَّا الْمُصَلِّينَ",
+            "وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ"
+        ];
+        
+        // إدارة الثيم
+        function toggleTheme() {
+            const body = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                icon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // تحميل الثيم المحفوظ
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-icon').textContent = '☀️';
+        }
+        
+        // التصفير التلقائي
+        const today = new Date().toLocaleDateString();
+        const lastVisit = localStorage.getItem('lastVisit');
+        
+        if (lastVisit !== today) {
+            localStorage.setItem('prayerStatus', JSON.stringify(Array(6).fill(false)));
+            localStorage.setItem('lastVisit', today);
+        }
+        
+        let prayerStatus = JSON.parse(localStorage.getItem('prayerStatus')) || Array(6).fill(false);
+        let tasbihCount = parseInt(localStorage.getItem('tasbihCount')) || 0;
+        
+        // عرض الصلوات
+        function renderPrayers() {
+            const list = document.getElementById('prayer-list');
+            list.innerHTML = '';
+            
+            let completed = 0;
+            
+            prayers.forEach((prayer, index) => {
+                if (prayerStatus[index]) completed++;
+                
+                const item = document.createElement('div');
+                item.className = 'prayer-item';
+                item.innerHTML = `
+                    <div class="prayer-name">
+                        <span class="prayer-icon">${prayer.icon}</span>
+                        <span>${prayer.name}</span>
+                    </div>
+                    <button class="check-btn ${prayerStatus[index] ? 'done' : ''}" 
+                            onclick="togglePrayer(${index})">
+                        ${prayerStatus[index] ? '✓' : ''}
+                    </button>
+                `;
+                list.appendChild(item);
+            });
+            
+            const percentage = Math.round((completed / 6) * 100);
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = percentage + '%';
+            document.getElementById('completed').textContent = completed;
+            document.getElementById('remaining').textContent = 6 - completed;
+        }
+        
+        function togglePrayer(index) {
+            prayerStatus[index] = !prayerStatus[index];
+            localStorage.setItem('prayerStatus', JSON.stringify(prayerStatus));
+            renderPrayers();
+            
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+        
+        function incrementTasbih() {
+            tasbihCount++;
+            localStorage.setItem('tasbihCount', tasbihCount);
+            document.getElementById('tasbih-count').textContent = tasbihCount.toLocaleString('ar-EG');
+            
+            if (navigator.vibrate) navigator.vibrate(30);
+        }
+        
+        function resetTasbih() {
+            if (confirm('هل تريد تصفير العداد؟')) {
+                tasbihCount = 0;
+                localStorage.setItem('tasbihCount', 0);
+                document.getElementById('tasbih-count').textContent = '0';
+            }
+        }
+        
+        // التحية
+        const hour = new Date().getHours();
+        let greeting = '';
+        
+        if (hour < 12) greeting = 'صباح الخير يا يوسف 🌅';
+        else if (hour < 18) greeting = 'نهارك مبارك يا يوسف ☀️';
+        else greeting = 'مساء الخير يا يوسف 🌙';
+        
+        document.getElementById('greeting').textContent = greeting;
+        
+        // التاريخ
+        const date = new Date().toLocaleDateString('ar-SA', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        document.getElementById('date').textContent = date;
+        
+        // آية عشوائية
+        document.getElementById('ayah').textContent = ayahs[Math.floor(Math.random() * ayahs.length)];
+        
+        // عرض العداد
+        document.getElementById('tasbih-count').textContent = tasbihCount.toLocaleString('ar-EG');
+        
+        renderPrayers();
+    </script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+    </script>
+</body>
+</html>

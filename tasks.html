@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنجازات يوسف</title>
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --bg-light: #f8f9fa;
+            --bg-pattern: #ffffff;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --primary: #2c5f2d;
+            --secondary: #97bf0d;
+            --gold: #c9a961;
+            --border: #e0e0e0;
+            --shadow: rgba(44, 95, 45, 0.08);
+        }
+        
+        [data-theme="dark"] {
+            --bg-light: #1a1a1a;
+            --bg-pattern: #242424;
+            --card: #2d2d2d;
+            --text: #e8e8e8;
+            --primary: #4a9d4f;
+            --secondary: #b8d94a;
+            --gold: #d4af37;
+            --border: #3a3a3a;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-light);
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, var(--bg-pattern) 2px, var(--bg-pattern) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, var(--bg-pattern) 2px, var(--bg-pattern) 4px);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .islamic-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(135deg, #c9a961 0%, #8b7355 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            z-index: 0;
+            opacity: 0.95;
+        }
+        
+        .islamic-pattern::before {
+            content: '⭐';
+            position: absolute;
+            top: 40px;
+            right: 30px;
+            font-size: 80px;
+            opacity: 0.15;
+            color: white;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .bismillah {
+            font-family: 'Amiri', serif;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .page-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.4em;
+            z-index: 1000;
+            box-shadow: 0 4px 12px var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .nav {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+            background: var(--card);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .nav-item {
+            text-align: center;
+            padding: 12px 8px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background: rgba(201, 169, 97, 0.1);
+            border-color: var(--gold);
+        }
+        
+        .nav-item.active {
+            background: var(--gold);
+            color: white;
+            border-color: var(--gold);
+        }
+        
+        .nav-icon {
+            display: block;
+            font-size: 1.5em;
+            margin-bottom: 4px;
+        }
+        
+        .streak-card {
+            background: linear-gradient(135deg, var(--gold), #8b7355);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 24px rgba(201, 169, 97, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .streak-card::before {
+            content: '🔥';
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.1;
+            top: -20px;
+            left: -20px;
+        }
+        
+        .streak-label {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .streak-number {
+            font-size: 4em;
+            font-weight: 900;
+            font-family: 'Amiri', serif;
+            margin: 15px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+        }
+        
+        .streak-desc {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+        
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: 900;
+            color: var(--gold);
+            font-family: 'Amiri', serif;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.85em;
+            color: var(--text);
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        
+        .input-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .task-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1em;
+            background: var(--bg-light);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        
+        .task-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+        }
+        
+        .add-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, var(--gold), #8b7355);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+        }
+        
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(201, 169, 97, 0.4);
+        }
+        
+        .add-btn:active {
+            transform: translateY(0);
+        }
+        
+        .task-item {
+            background: var(--card);
+            padding: 18px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            border-right: 4px solid var(--gold);
+            box-shadow: 0 3px 12px var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+        
+        .task-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 18px var(--shadow);
+        }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-text {
+            font-weight: 600;
+            font-size: 1.05em;
+            margin-bottom: 5px;
+        }
+        
+        .task-meta {
+            font-size: 0.8em;
+            opacity: 0.7;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .delete-btn {
+            color: #e74c3c;
+            font-size: 1.3em;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            background: rgba(231, 76, 60, 0.1);
+            transform: scale(1.2);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 480px) {
+            .streak-number {
+                font-size: 3em;
+            }
+            
+            .stat-number {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="islamic-pattern"></div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="تبديل الوضع">
+        <span id="theme-icon">🌙</span>
+    </button>
+    
+    <div class="container">
+        <header class="header">
+            <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <h1 class="page-title">سجل الإنجازات</h1>
+            <p style="opacity: 0.95; font-size: 0.95em;">نظام السلاسل والالتزام</p>
+        </header>
+        
+        <nav class="nav">
+            <a href="index.html" class="nav-item">
+                <span class="nav-icon">🕌</span>
+                <span>الصلاة</span>
+            </a>
+            <a href="info.html" class="nav-item">
+                <span class="nav-icon">📖</span>
+                <span>معلومات</span>
+            </a>
+            <a href="dua.html" class="nav-item">
+                <span class="nav-icon">🤲</span>
+                <span>أدعية</span>
+            </a>
+            <a href="tasks.html" class="nav-item active">
+                <span class="nav-icon">⭐</span>
+                <span>إنجازاتي</span>
+            </a>
+        </nav>
+        
+        <div class="streak-card">
+            <div class="streak-label">🔥 سلسلة الالتزام</div>
+            <div class="streak-number" id="streak">0</div>
+            <div class="streak-desc">يوماً متتالياً من التميز</div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number" id="total-tasks">0</span>
+                <span class="stat-label">إجمالي الإنجازات</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="total-tasbih">0</span>
+                <span class="stat-label">مجموع التسبيح</span>
+            </div>
+        </div>
+        
+        <div class="input-card">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    class="task-input" 
+                    id="task-input"
+                    placeholder="سجّل إنجازاً جديداً..."
+                    onkeypress="if(event.key==='Enter') addTask()"
+                >
+                <button class="add-btn" onclick="addTask()">➕ إضافة</button>
+            </div>
+        </div>
+        
+        <div id="task-list"></div>
+    </div>
+    
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let tasbihCount = parseInt(localStorage.getItem('tasbihCount')) || 0;
+        
+        function toggleTheme() {
+            const body = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                icon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-icon').textContent = '☀️';
+        }
+        
+        function calculateStreak() {
+            if (tasks.length === 0) return 0;
+            
+            const dates = [...new Set(tasks.map(t => t.fullDate))].sort((a, b) => new Date(b) - new Date(a));
+            let streak = 0;
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            let lastDate = new Date(dates[0]);
+            lastDate.setHours(0, 0, 0, 0);
+            
+            const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+            if (diffDays > 1) return 0;
+            
+            for (let i = 0; i < dates.length; i++) {
+                let current = new Date(dates[i]);
+                let expected = new Date();
+                expected.setDate(new Date(dates[0]).getDate() - i);
+                
+                if (current.toDateString() === expected.toDateString()) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            
+            return streak;
+        }
+        
+        function renderTasks() {
+            const list = document.getElementById('task-list');
+            
+            if (tasks.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <div>ابدأ بتسجيل أول إنجاز لك</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = tasks.map((task, index) => `
+                <div class="task-item">
+                    <div class="task-content">
+                        <div class="task-text">${task.text}</div>
+                        <div class="task-meta">
+                            <span>📅 ${task.date}</span>
+                            <span>⏰ ${task.time}</span>
+                        </div>
+                    </div>
+                    <div class="delete-btn" onclick="deleteTask(${index})">✖</div>
+                </div>
+            `).reverse().join('');
+        }
+        
+        function updateStats() {
+            document.getElementById('total-tasks').textContent = tasks.length.toLocaleString('ar-EG');
+            document.getElementById('total-tasbih').textContent = tasbihCount.toLocaleString('ar-EG');
+            document.getElementById('streak').textContent = calculateStreak().toLocaleString('ar-EG');
+        }
+        
+        function addTask() {
+            const input = document.getElementById('task-input');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            const now = new Date();
+            tasks.push({
+                text: text,
+                date: now.toLocaleDateString('ar-SA'),
+                time: now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
+                fullDate: now.toDateString()
+            });
+            
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            input.value = '';
+            renderTasks();
+            updateStats();
+            
+            if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+        }
+        
+        function deleteTask(index) {
+            const actualIndex = tasks.length - 1 - index;
+            if (confirm('هل تريد حذف هذا الإنجاز؟')) {
+                tasks.splice(actualIndex, 1);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                renderTasks();
+                updateStats();
+            }
+        }
+        
+        renderTasks();
+        updateStats();
+    </script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+    </script>
+</body>
+</html>
