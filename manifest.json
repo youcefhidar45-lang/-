@@ -1,16 +1,10 @@
+
 {
-  "name": "مفكرة يوسف",
-  "short_name": "مفكرة يوسف",
+  "name": "Islamic Notes App",
+  "short_name": "IslamicApp",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#f4f7f6",
-  "theme_color": "#1a5e63",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3209/3209265.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  "background_color": "#F4F6F8",
+  "theme_color": "#2E7D32",
+  "icons": []
 }
